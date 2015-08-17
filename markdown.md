@@ -32,16 +32,22 @@ class: center, middle
   * https://mobile.twitter.com/
 * Web技術でなんとかしたいというニーズ
 
+---
+
 # おさらい: なぜクライアントサイドフレームワークなのか
 
 * 原理的にはjQueryでAjaxでよいはずだが、素朴すぎる
 * そこそこ規模が大きく込み入ったアプリケーションの開発に耐えうるアーキテクチャ
+
+---
 
 # QuipperにおけるSPA
 
 * 気がついたらSPAだらけになっていた
   * SPAかふつうのウェブアプリケーションか、は議論にすらならなかった
   * Web開発者がモバイルネイティブアプリ開発者より圧倒的に多数だったので自然と
+
+---
 
 # Quipperにおけるクライアントサイドフレームワーク
 
@@ -54,16 +60,22 @@ class: center, middle
 * React
 * Backbone/Marionetteアプリの一機能を別で実装し連携して動く
 
+---
+
 # QuipperにおけるBackbone
 
 * 2013年春ごろにiOS開発者がWebにコンバートして一人でアプリを作る際に採用
 * 具体的にどのような議論を経てBackboneでSPAというアーキテクチャが採用されたかは不明
 * 狙いどおり応答性の高いアプリだが、コードベースは厄介
 
+---
+
 # Backbone（のウソ）
 
 * 背骨ではなく、ただの骨
 * 正しい骨格の組み上げ方を知らないと、いびつな形に
+
+---
 
 # Chaplin
 
@@ -72,6 +84,8 @@ class: center, middle
 * ビルドまわりなど、不自由さ
 * @reuse の扱いづらさ
 * 実質キャッシュなので
+
+---
 
 # QuipperにおけるChaplin
 
@@ -82,11 +96,15 @@ class: center, middle
   * 当時MarionetteはChaplinとどっこいのマイナーさで、Angularは流行り始めていたが避けた
 * その後2014年に開始した別プロジェクトでも再び採用したがプロジェクト中止
 
+---
+
 # Marionette
 
 * これもBackboneをベースとする
 * LayoutViewのわかりやすさと汎用性
 * 規約はゆるいがmoduleによってきれいなアーキテクチャを維持できる
+
+---
 
 # QuipperにおけるMarionette
 
@@ -94,6 +112,8 @@ class: center, middle
 * Chaplinを採用したチームから「次も選ぶほどではない」というフィードバック
 * Backboneの経験値はたまったのでそれベースのMarionetteが選ばれた
 * いろいろアドバンテージを活かせた結果、主力アプリすべてMarionetteを採用
+
+---
 
 # Chaplin vs Marionette
 
@@ -103,7 +123,11 @@ class: center, middle
 * リスク承知でレールを外れざるをえないのがフロントエンドの世界
 * 無茶して規約を迂回するリスクを払わずに済むMarionetteのほうがよい
 
+---
+
 # QuipperにおけるReact
+
+---
 
 # SPA時代のAPIのあり方
 
