@@ -90,7 +90,7 @@ class: center, middle
 
 # Backbone
 
-* 最初に採用されたJavaScriptフレームワーク
+* 最初に採用されたJavaScriptフレームワーク（2013年春）
 * モバイル対応必須のアプリだったためSPAとして実装
 * 狙いどおり応答性の高いアプリケーションが実現できた（デモ動画がコレ）
 * しかしコードベースはちょっと複雑
@@ -105,7 +105,7 @@ class: center, middle
 
 ---
 
-* [要出典] 困るパターン: initialize に詰め込みすぎ
+* 困るパターン[要出典]: initialize に詰め込みすぎ
 
 ```javascript
 var AppView = Backbone.View.extend({
@@ -126,7 +126,7 @@ var AppView = Backbone.View.extend({
 
 ---
 
-* [独自研究] 困るパターン: render に詰め込みすぎ
+* 困るパターン[独自研究]: render に詰め込みすぎ
 
 ```javascript
 var AppView = Backbone.View.extend({
@@ -145,59 +145,52 @@ var AppView = Backbone.View.extend({
 
 ---
 
-# Quipperにおけるクライアントサイドフレームワーク
+# [Chaplin](http://chaplinjs.org/)
 
-* Chaplin
-  * 過去に採用されアプリを二つ作ったが
-* Marionette
-  * 主力アプリ三つすべてこれ（Backboneからの移行含む）
-* React
-* Backbone/Marionetteアプリの一機能を別で実装し連携して動く
-
----
-
-# Backbone（のウソ）
-
-* 背骨ではなく、ただの骨
-* 正しい骨格の組み上げ方を知らないと、いびつな形に
+* Backboneベースで規約が多いフレームワーク（Railsっぽい）
+* Backboneで作られたアプリとほぼ同時期に別プロジェクトで採用
+  * 小学生向けタブレット学習サービス（2013年初夏〜2014年夏）
+  * Backboneの場合と同じくモバイル対応必須かつWeb開発者しかいなかったため、JavaScriptフレームワーク以外の選択肢無し
+  * Backboneで大規模アプリ開発を経験した人の知見「Backboneだけでは破綻するので一段上のフレームワークが必要」
+  * Angularが流行り始めていて検討したが「管理画面向け」という噂だったので採用せず
 
 ---
 
-# Chaplin
+.center[![Moon2013](photo02.jpg)]
 
-* Backboneをベースとする
-* 規約多め（Railsに少し似ている）
-* ビルドまわりなど、不自由さ
+.right[[ベンチャーが日本の企業を強くする - ベネッセ、ベンチャーと組み“個”の学びを素早く提供：ITpro](http://itpro.nikkeibp.co.jp/article/COLUMN/20140430/553923/?s2p)]
+
+---
+
+# Chaplinで苦労したところ
+
+* ビルド周りの融通の利かなさ（Brunch以外の選択肢を選びづらい）
 * @reuse の扱いづらさ
-* 実質キャッシュなので
+  * 実質キャッシュ、Marionetteとの思想の違い
 
 ---
 
-# QuipperにおけるChaplin
-
-* 2013年初夏から日本で小学生向けタブレット学習サービスを作る際に採用
-* 過去にBackboneで大規模SPA開発を経験した人の知見
-  * 「素のBackboneだけで開発すると破綻するので避けるべし」
-* 開発チームは彼以外にSPAの知見がなかったので彼が見つけてきたChaplinを選んだ
-  * 当時MarionetteはChaplinとどっこいのマイナーさで、Angularは流行り始めていたが避けた
-* その後2014年に開始した別プロジェクトでも再び採用したがプロジェクト中止
+(chaplin impl)
 
 ---
 
 # Marionette
 
-* これもBackboneをベースとする
+* Backboneベースで規約が少ないフレームワーク
+* 前述のBackbone/Chaplinアプリを作ったあとに採用（2014年）
+  * ふつうのRailsアプリだったQLinkを「レスポンスの遅さ」解決のためにSPA化
+  * 同時期にやはりふつうのRailsアプリだったQCreateのリニューアルでも採用
+  * Chaplin採用プロジェクトメンバーからのフィードバック「強くは推さない」
+* その後Backboneで作られていたQLearnもMarionetteに移行
+
+# Marionetteの便利なところ
+
 * LayoutViewのわかりやすさと汎用性
-* 規約はゆるいがmoduleによってきれいなアーキテクチャを維持できる
+* moduleによるきれいなアーキテクチャの実現
 
 ---
 
-# QuipperにおけるMarionette
-
-* 主力アプリがBackboneで残りはRails+jQueryだったが、遅さが問題になった
-* Chaplinを採用したチームから「次も選ぶほどではない」というフィードバック
-* Backboneの経験値はたまったのでそれベースのMarionetteが選ばれた
-* いろいろアドバンテージを活かせた結果、主力アプリすべてMarionetteを採用
+(marionette impl)
 
 ---
 
@@ -207,11 +200,46 @@ var AppView = Backbone.View.extend({
   * フレームワーク側で頑張ろうとするChaplin
   * 便利なパーツを用意して開発者に任せるMarionette
 * リスク承知でレールを外れざるをえないのがフロントエンドの世界
-* 無茶して規約を迂回するリスクを払わずに済むMarionetteのほうがよい
+* 無茶して規約を迂回するリスクを払わずに済むMarionetteのほうが後々ラク
 
 ---
 
-# QuipperにおけるReact
+# React
+
+* 新機能（チャット付きライブ授業）用に採用
+  * 当時@mizchiがReact にハマっていたため[要出典]
+  * 新規プロジェクトで新しい技術を試すのはよくあること
+  * リアルタイム性はReact関係なくPusherを使って実現
+
+---
+
+# Reactの美しいところ
+
+* △バーチャルDOMだからはやい
+* ○「毎回画面を全部書き換える」古きよき単純なアーキテクチャへ回帰したことがすごい
+* シンプルなアーキテクチャのパフォーマンス面での問題を実装で解決したのがバーチャルDOM
+  * それ自体技術的には高度ですごいが、そもそものアーキテクチャ的な正しい判断があってこそ活きる
+* [http://kyanny.github.io/what-i-have-learnt-about-react-so-far/](http://kyanny.github.io/what-i-have-learnt-about-react-so-far/)
+
+---
+
+# Javascriptフレームワークおすすめは？
+
+* Backbone.Eventを理解している人は...
+  * ○Marionette
+  * とてもおすすめ（API豊富、ドキュメント充実、安定）
+* SPAこれから始める人は...
+  * ？Angular
+  * 日本語の情報が多いのでいいんじゃないでしょうか
+* Reactがどうしても気になる人は...
+  * ○React
+  * アクティブに情報を追わないといけないがトライする価値はある
+
+---
+
+# RailsとSPAの共存
+
+* 
 
 ---
 
