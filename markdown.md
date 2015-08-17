@@ -48,7 +48,15 @@ class: center, middle
 
 ---
 
+* モバイルWebの起動は遅い（3G/750Kbps）
+
 <video src="regular-3g-load.mov" controls></video>
+
+---
+
+* タップごとに何秒も待てない、SPAの「のろさ」なら我慢できる
+
+<video src="regular-3g-quiz.mov" controls></video>
 
 ---
 
@@ -80,24 +88,71 @@ class: center, middle
 
 ---
 
+# Backbone
+
+* 最初に採用されたJavaScriptフレームワーク
+* モバイル対応必須のアプリだったためSPAとして実装
+* 狙いどおり応答性の高いアプリケーションが実現できた（デモ動画がコレ）
+* しかしコードベースはちょっと複雑
+
+---
+
+# Backbone最大のウソ
+
+* x 背骨（骨格）
+* o バラバラの骨
+  * 正しい骨格の組み方を知らないと、いびつに
+
+---
+
+* [要出典] 困るパターン: initialize に詰め込みすぎ
+
+```javascript
+var AppView = Backbone.View.extend({
+  initialize: function() {
+    this.foo = new Foo();
+    this.bar = new Bar();
+    this.baz = new Baz();
+    this.qux = new Qux();
+    this.quux = new Quux();
+
+    // どんだけいっぱい new してるんだよ...（何行も続く）
+
+    this.render(); // で render かよ！テストしづらいからやめてほしい...
+    return this;
+  }
+});
+```
+
+---
+
+* [独自研究] 困るパターン: render に詰め込みすぎ
+
+```javascript
+var AppView = Backbone.View.extend({
+  render: function() {
+    this.$el.html(this.template(this.model.attributes));
+
+    // Foo() インスタンスの後始末は誰が？
+    this.$el.find('.selector').html((new Foo()).render().$el.html())
+
+    (new Bar()).render(); // Bar() インスタンスは一体どこに何を render してるの？？
+
+    return this;
+  }
+});
+```
+
+---
+
 # Quipperにおけるクライアントサイドフレームワーク
 
-* Backbone
-  * 最初に採用、最近まで現役
 * Chaplin
   * 過去に採用されアプリを二つ作ったが
 * Marionette
   * 主力アプリ三つすべてこれ（Backboneからの移行含む）
 * React
 * Backbone/Marionetteアプリの一機能を別で実装し連携して動く
-
----
-
-# QuipperにおけるBackbone
-
-* 2013年春ごろにiOS開発者がWebにコンバートして一人でアプリを作る際に採用
-* 具体的にどのような議論を経てBackboneでSPAというアーキテクチャが採用されたかは不明
-* 狙いどおり応答性の高いアプリだが、コードベースは厄介
 
 ---
 
