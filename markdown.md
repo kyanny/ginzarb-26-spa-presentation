@@ -1,8 +1,6 @@
 class: center, middle
 
-# SPA kari
-
-### AAA
+# Backbone, Chaplin, Marionette そして React - Quipper における Single Page Application 開発の変遷
 
 .right[Kensuke Nagae (@kyanny)]
 
@@ -10,12 +8,29 @@ class: center, middle
 
 ---
 
+class: center, middle
+
+あ…ありのまま 今　起こった事を話すぜ！
+
+「おれは　Railsエンジニアとして転職したと  
+思ったら　いつのまにかSPAばかり書いていた」
+
+---
+
+# お話すること
+
+* おさらい: なぜSPAなのか、なぜJavaScriptフレームワークなのか 3m
+* Quipperでこれまで採用してきたJavaScriptフレームワークと所感 6m
+  * Backbone
+  * Chaplin
+  * Marionette
+  * React
+* RailsとSPAの共存 2m
+* SPAに向いているAPIの設計と実装 2m
+
+<!--
 # 話せそうなネタ
 
-* なぜシングルページアプリケーションなのか
-  * モバイル・ネイティブ対抗のためには古きよきやり方では無理だったから
-* Backbone.js のウソ
-  * 背骨ではなくただの骨。骨格の組み方を知らないと人体としてありえないモノを組んでしまう
 * Chaplin.js
   * なぜ @reuse はイマイチか、そしてフロントエンド開発のアキレス腱 build/deploy ツール密結合のダメさ
 * Marionette.js とコンポーネント志向
@@ -23,29 +38,45 @@ class: center, middle
   * △バーチャルDOMだからはやい
   * ○「毎回画面を全部書き換える」古きよき単純なアーキテクチャへ回帰したことがすごい
   * シンプルなアーキテクチャのパフォーマンス面での問題を実装で解決したのがバーチャルDOM（それ自体技術的には高度ですごいが、そもそものアーキテクチャ的な正しい判断があってこそ活きる）
+-->
 
 ---
 
 # おさらい: なぜSPAなのか
 
-* モバイルネイティブアプリの反応速度に対抗するため
-  * https://mobile.twitter.com/
-* Web技術でなんとかしたいというニーズ
+* モバイルネイティブアプリの速度にWeb技術で対抗するため
 
 ---
 
-# おさらい: なぜクライアントサイドフレームワークなのか
-
-* 原理的にはjQueryでAjaxでよいはずだが、素朴すぎる
-* そこそこ規模が大きく込み入ったアプリケーションの開発に耐えうるアーキテクチャ
+<video src="regular-3g-load.mov" controls></video>
 
 ---
 
-# QuipperにおけるSPA
+# おさらい: なぜJavaScriptフレームワークなのか
 
-* 気がついたらSPAだらけになっていた
-  * SPAかふつうのウェブアプリケーションか、は議論にすらならなかった
-  * Web開発者がモバイルネイティブアプリ開発者より圧倒的に多数だったので自然と
+* 素朴にjQueryとAjaxで込み入ったアプリケーションを作ると破綻する
+* JavaScriptアプリケーションの世界にも複雑さにたえうるアーキテクチャが求められた
+
+---
+
+# QuipperとSPA
+
+* Quipperの主力製品
+  * QLink（先生向け 宿題配信 成績管理）
+  * QLearn（生徒向け 学習アプリ モバイル対応）
+  * QCreate（教材コンテンツ制作用CMS）
+* いつのまにかすべてJavaScriptフレームワークによるSPAへと変貌
+  * 内訳（昔）: Backbone x 1, Marionette x 2
+  * 内訳（今）: Marionette x 3
+
+---
+
+# SPA採用の理由
+
+* これといって特になし（実話）
+  * ネイティブアプリ開発者が少なく、Web開発者が多かったので、ごく自然に
+  * Webかネイティブか？という議論は多少あった
+  * SPAか「古きよきウェブアプリケーション」か、は議論にすらならなかった
 
 ---
 
