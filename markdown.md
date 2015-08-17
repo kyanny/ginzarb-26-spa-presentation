@@ -324,5 +324,6 @@ $.when(this.user.fetch(), this.news.fetch(), this.messages.fetch(), this.campaig
 
 ---
 
-# :)
+# ありがとうございましたミ☆
 
+.center[![ネコル](lovely-nekoru.jpg)]
