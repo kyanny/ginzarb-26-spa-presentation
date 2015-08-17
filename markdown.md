@@ -19,26 +19,14 @@ class: center, middle
 
 # お話すること
 
-* おさらい: なぜSPAなのか、なぜJavaScriptフレームワークなのか 3m
-* Quipperでこれまで採用してきたJavaScriptフレームワークと所感 6m
+* おさらい: なぜSPAなのか、なぜJavaScriptフレームワークなのか
+* Quipperでこれまで採用してきたJavaScriptフレームワークと所感
   * Backbone
   * Chaplin
   * Marionette
   * React
-* RailsとSPAの共存 2m
-* SPAに向いているAPIの設計と実装 2m
-
-<!--
-# 話せそうなネタ
-
-* Chaplin.js
-  * なぜ @reuse はイマイチか、そしてフロントエンド開発のアキレス腱 build/deploy ツール密結合のダメさ
-* Marionette.js とコンポーネント志向
-* React の素晴らしさはどこにあるか
-  * △バーチャルDOMだからはやい
-  * ○「毎回画面を全部書き換える」古きよき単純なアーキテクチャへ回帰したことがすごい
-  * シンプルなアーキテクチャのパフォーマンス面での問題を実装で解決したのがバーチャルDOM（それ自体技術的には高度ですごいが、そもそものアーキテクチャ的な正しい判断があってこそ活きる）
--->
+* RailsとSPAの共存
+* SPAに向いているAPIの設計と実装
 
 ---
 
@@ -99,8 +87,8 @@ class: center, middle
 
 # Backbone最大のウソ
 
-* x 背骨（骨格）
-* o バラバラの骨
+* × 背骨（骨格）
+* ○ バラバラの骨
   * 正しい骨格の組み方を知らないと、いびつに
 
 ---
@@ -215,8 +203,8 @@ var AppView = Backbone.View.extend({
 
 # Reactの美しいところ
 
-* △バーチャルDOMだからはやい
-* ○「毎回画面を全部書き換える」古きよき単純なアーキテクチャへ回帰したことがすごい
+* △ バーチャルDOMだからはやい
+* ○ 「毎回画面を全部書き換える」古きよき単純なアーキテクチャへ回帰したことがすごい
 * シンプルなアーキテクチャのパフォーマンス面での問題を実装で解決したのがバーチャルDOM
   * それ自体技術的には高度ですごいが、そもそものアーキテクチャ的な正しい判断があってこそ活きる
 * [http://kyanny.github.io/what-i-have-learnt-about-react-so-far/](http://kyanny.github.io/what-i-have-learnt-about-react-so-far/)
@@ -226,29 +214,115 @@ var AppView = Backbone.View.extend({
 # Javascriptフレームワークおすすめは？
 
 * Backbone.Eventを理解している人は...
-  * ○Marionette
+  * ○ Marionette
   * とてもおすすめ（API豊富、ドキュメント充実、安定）
 * SPAこれから始める人は...
-  * ？Angular
+  * ？ Angular
   * 日本語の情報が多いのでいいんじゃないでしょうか
 * Reactがどうしても気になる人は...
-  * ○React
+  * ○ React
   * アクティブに情報を追わないといけないがトライする価値はある
 
 ---
 
 # RailsとSPAの共存
 
-* 
+```
+app/
+├── assets
+│   ├── images
+│   ├── javascripts
+│   │   ├── application.coffee
+│   │   ├── modules
+│   │   │   ├── dashboard
+│   │   │   │   ├── controller.js.coffee
+│   │   │   │   ├── models
+│   │   │   │   │   └── dashboard.js.coffee
+│   │   │   │   ├── router.coffee
+│   │   │   │   └── views
+│   │   │   │       └── dashboard_view.js.coffee
+```
+
+* app/controllers 以下はほぼ全て JSON API
+
+---
+
+# 共存させるメリット・デメリット
+
+* ○ デプロイやインテグレーションで悩むことが減る（CORSなど）
+* ○ Sprockets任せはけっこう楽
+* × Grunt/gulpなどNode.jsなフロントエンドツールを使いづらい
+* × デプロイが遅い（assets:precompileが遅い）
+
+---
+
+# 共存させるときのTips
+
+* index.htmlをrenderするactionが一個ある（BackboneController#index）
+* リロード404対策のためにroutes.rbはこんな感じにする
+
+```ruby
+QuipperLink::Application.routes.draw do
+  root :to => 'backbone#index'
+
+  scope controller: 'backbone', action: 'index' do
+    get "/dashboard" # <-- Backbone.Routerが書き換えるURLのパス部分
+    get "/settings"
+    get "/logout"
+  end
+end
+```
 
 ---
 
 # SPA時代のAPIのあり方
 
+* scaffoldっぽいAPIはSPAから使いづらい
+
+```javascript
+// 理想
+this.user = new User();
+this.user.fetch().done(function(){
+  this.$el.html(this.template(this.user.attributes));
+});
+
+// 現実
+this.user = new User();
+this.news = new News();
+this.messages = new Messages();
+this.campaigns = new Campaigns();
+$.when(this.user.fetch(), this.news.fetch(), this.messages.fetch(), this.campaigns.fetch()).done(function(){
+  // 一つの画面が必要とするリソースが一つで済むわけではない！
+})
+```
+
+---
+
+# SPAに向いているAPIとは
+
+* クライアントサイドに都合の良いデータをまとめて返すAPI
+* 「アプリにべったりなAPI実装、気持ち悪い...」
+  * Web開発者はサーバサイドで込み入ったことをするほうが楽
+  * 単純なRuby + 込み入ったJavaScript
+  * 単純なJavaScript + 込み入ったRuby
+  * どっちがいいですか？
 * [例えば OSFA な API をやめる](http://blog.kyanny.me/entry/2014/03/06/%E4%BE%8B%E3%81%88%E3%81%B0_OSFA_%E3%81%AA_API_%E3%82%92%E3%82%84%E3%82%81%E3%82%8B)
-* Railsのscaffoldで作ったような「きれいな」APIはSPAからは扱いづらい
-  * 画面を組み立てるためには複数のリソースが必要になることがほとんど
-  * それぞれ個別のエンドポイントを叩いてレスポンスを待っていたら応答性が犠牲になるしコードももろくなる
-* SPA側に都合の良いデータを返すAPIを作るほうが結果的に楽
-  * 単純なサーバサイド（Ruby）+込み入ったクライアントサイド（JavaScript） vs 込み入ったサーバサイド（Ruby）+単純なクライアントサイド（JavaScript）
+* Netflixという偉大な前例
+
+---
+
+# お話したこと
+
+* おさらい: なぜSPAなのか、なぜJavaScriptフレームワークなのか
+* Quipperでこれまで採用してきたJavaScriptフレームワークと所感
+  * Backbone
+  * Chaplin
+  * Marionette
+  * React
+* RailsとSPAの共存
+* SPAに向いているAPIの設計と実装
+
+---
+
+# :)
 
