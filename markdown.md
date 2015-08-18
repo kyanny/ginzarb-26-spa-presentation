@@ -184,7 +184,7 @@ var SiteController = Chaplin.Controller.extend({
 });
 ```
 
-* http://docs.chaplinjs.org/chaplin.composer.html
+.right[http://docs.chaplinjs.org/chaplin.composer.html]
 
 ---
 
@@ -206,7 +206,60 @@ var SiteController = Chaplin.Controller.extend({
 
 ---
 
-(marionette impl)
+* デモ: http://www.marionettewires.com/
+
+```javascript
+// LayoutView
+  regions: {
+    library : '.books__library',
+    viewer  : '.books__viewer'
+  }
+// render
+  this.library = new LibraryView({
+    collection: this.collection
+  });
+  this.viewer = new ViewerView({
+    model: this.model
+  });
+  this.layout.library.show(this.library);
+  this.layout.viewer.show(this.viewer);
+});
+```
+
+* ビューを入れ子にしていく（DOMと同じ）
+
+.right[
+https://github.com/thejameskyle/marionette-wires/blob/master/src/books/layout-view.js#L7-L10  
+https://github.com/thejameskyle/marionette-wires/blob/master/src/books/show/route.js#L22-L33
+]
+
+---
+
+* モデル・ビュー・コントローラ etc. を module 単位でまとめる
+
+```
+app/assets/javascripts/modules/user/signup/
+├── controller.js.coffee
+├── models
+│   ├── account.coffee
+│   ├── organization.coffee
+│   └── subscription.js.coffee
+├── router.coffee
+└── views
+    ├── account_view.coffee
+    ├── organization_view.coffee
+    └── signup_view.coffee
+```
+
+* 独立したネームスペース・グローバルオブジェクトも参照可能
+
+```coffeescript
+App.module "User.Signup", (Signup, App, Backbone, Marionette, $, _) ->
+  class Signup.SignupView extends App.Wizard.WizardView
+    template: 'user/signup/wizard'
+    id: "create-account-modal"
+    className: "well modal-wizard tabs-container"
+```
 
 ---
 
