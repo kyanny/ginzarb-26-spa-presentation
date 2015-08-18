@@ -80,7 +80,7 @@ class: center, middle
 
 * 最初に採用されたJavaScriptフレームワーク（2013年春）
 * モバイル対応必須のアプリだったためSPAとして実装
-* 狙いどおり応答性の高いアプリケーションが実現できた（デモ動画がコレ）
+* 狙いどおり応答性の高いアプリケーションが実現できた
 * しかしコードベースはちょっと複雑
 
 ---
@@ -138,8 +138,8 @@ var AppView = Backbone.View.extend({
 * Backboneベースで規約が多いフレームワーク（Railsっぽい）
 * Backboneで作られたアプリとほぼ同時期に別プロジェクトで採用
   * 小学生向けタブレット学習サービス（2013年初夏〜2014年夏）
-  * Backboneの場合と同じくモバイル対応必須かつWeb開発者しかいなかったため、JavaScriptフレームワーク以外の選択肢無し
-  * Backboneで大規模アプリ開発を経験した人の知見「Backboneだけでは破綻するので一段上のフレームワークが必要」
+  * Backboneと似た事情（モバイル必須だがWeb開発者が多い）
+  * 経験者の知見「Backboneだけでは破綻するのでフレームワークが必要」
   * Angularが流行り始めていて検討したが「管理画面向け」という噂だったので採用せず
 
 ---
@@ -153,12 +153,38 @@ var AppView = Backbone.View.extend({
 # Chaplinで苦労したところ
 
 * ビルド周りの融通の利かなさ（Brunch以外の選択肢を選びづらい）
-* @reuse の扱いづらさ
-  * 実質キャッシュ、Marionetteとの思想の違い
+  * 楽な面もあるけど...
+* @reuse (@compose) の扱いづらさ
+  * cache invalidate と似た難しさが...
+
+> There are only two hard things in Computer Science: cache invalidation and naming things.
+> 
+> -- Phil Karlton
+
+.right[http://martinfowler.com/bliki/TwoHardThings.html]
 
 ---
 
-(chaplin impl)
+* デモ: http://chaplinjs.org/basic-example/public/
+
+```javascript
+var SiteController = Chaplin.Controller.extend({
+  beforeAction: function() {
+    // Reuse the Site view, which is a simple 3-row stacked layout that
+    // provides the header, footer, and body regions
+    this.reuse('site', Site);
+
+    // Reuse the Header view, which binds itself to whatever container
+    // is exposed in Site under the header region
+    this.reuse('header', Header, {region: 'header'});
+
+    // Likewise for the footer region
+    this.reuse('footer', Footer, {region: 'footer'});
+  }
+});
+```
+
+* http://docs.chaplinjs.org/chaplin.composer.html
 
 ---
 
@@ -168,8 +194,10 @@ var AppView = Backbone.View.extend({
 * 前述のBackbone/Chaplinアプリを作ったあとに採用（2014年）
   * ふつうのRailsアプリだったQLinkを「レスポンスの遅さ」解決のためにSPA化
   * 同時期にやはりふつうのRailsアプリだったQCreateのリニューアルでも採用
-  * Chaplin採用プロジェクトメンバーからのフィードバック「強くは推さない」
-* その後Backboneで作られていたQLearnもMarionetteに移行
+  * Chaplin強く支持はされず
+  * その後Backboneで作られていたQLearnもMarionetteに移行
+
+---
 
 # Marionetteの便利なところ
 
