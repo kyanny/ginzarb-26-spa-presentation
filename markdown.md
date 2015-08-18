@@ -165,7 +165,8 @@ var AppView = Backbone.View.extend({
 
 ---
 
-* デモ: http://chaplinjs.org/basic-example/public/
+* デモ1: http://chaplinjs.org/basic-example/public/
+* デモ2: http://kyanny.github.io/basic-example/public/
 
 ```javascript
 var SiteController = Chaplin.Controller.extend({
